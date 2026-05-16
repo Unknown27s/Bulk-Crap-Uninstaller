@@ -2,100 +2,267 @@
 <html lang="{{ site.lang | default: " en-US" }}">
 
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
-  <link rel="icon" type="image/png" sizes="96x96" href="{{ '/assets/favicon-96x96.png' | relative_url }}">
-  <title>{{ site.title }}</title>
-  {% seo %}
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#157878">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="google-site-verification" content="yDaDj3bLpiSsAW_DOIOuecTxWfxFG8t2Xj9GC9gjNGs" />
-  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <link rel="preconnect" href="https://img.shields.io">
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ '/assets/favicon-96x96.png' | relative_url }}">
+    <title>{{ page.title | default: site.title }}</title>
+    {% seo %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google-site-verification" content="yDaDj3bLpiSsAW_DOIOuecTxWfxFG8t2Xj9GC9gjNGs" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="{{ page.title | default: site.title }}">
+    <meta property="og:description" content="{{ page.description | default: site.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:image" content="{{ '/assets/og-image.png' | relative_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title | default: site.title }}">
+    <meta name="twitter:description" content="{{ page.description | default: site.description }}">
+    <meta name="twitter:image" content="{{ '/assets/og-image.png' | relative_url }}">
+
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="preconnect" href="https://img.shields.io">
+
+    <style>
+        /* Minimal fallback styles so site has colors without Jekyll build */
+        :root {
+            --btn-bg: #eee;
+            --btn-color: #222;
+            --btn-border: #ccc;
+            --cta-bg: #28a745;
+            --cta-bg-hover: #218838
+        }
+
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden
+        }
+
+        .skip-link:focus {
+            left: 10px;
+            top: 10px;
+            width: auto;
+            height: auto;
+            padding: 8px;
+            background: #000;
+            color: #fff;
+            z-index: 9999
+        }
+
+        .page-header {
+            color: #fff;
+            text-align: center;
+            background-color: #333;
+            background-image: linear-gradient(180deg, #555, #333);
+            padding: 2.3rem 1rem
+        }
+
+        .project-name {
+            margin: 0;
+            font-size: 2rem
+        }
+
+        .project-tagline {
+            margin: .5rem 0;
+            color: #ddd
+        }
+
+        /* Nav vertical by default, horizontal on wide screens */
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            align-items: center;
+            width: 100%
+        }
+
+        .nav-list li {
+            display: block
+        }
+
+        .nav-list li+li {
+            margin-top: .5rem
+        }
+
+        .btn {
+            display: inline-block;
+            padding: .5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--btn-color);
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border)
+        }
+
+        .btn:focus {
+            outline: 3px solid #ff0
+        }
+
+        .btn:hover {
+            background: #e6e6e6
+        }
+
+        .download-color {
+            color: #fff;
+            background: var(--cta-bg)
+        }
+
+        .download-color:hover {
+            background: var(--cta-bg-hover)
+        }
+
+        .shields {
+            margin-top: 1rem;
+            text-align: center
+        }
+
+        .shields img {
+            vertical-align: middle
+        }
+
+        /* Hero */
+        .hero {
+            padding: 2rem 1rem;
+            text-align: center;
+            background: linear-gradient(180deg, #f7f9fa, #eef3f6);
+            color: #222
+        }
+
+        .hero .lead {
+            max-width: 65ch;
+            margin: 0 auto 1rem;
+            font-size: 1.05rem;
+            color: #333
+        }
+
+        .hero .cta {
+            display: inline-flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem
+        }
+
+        .hero .cta .btn {
+            padding: .6rem 1.1rem
+        }
+
+        @media(min-width:800px) {
+            .nav-list {
+                flex-direction: row;
+                justify-content: center
+            }
+
+            .nav-list li+li {
+                margin-top: 0;
+                margin-left: .5rem
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Bulk Crap Uninstaller",
+    "screenshot": "https://www.bcuninstaller.com/assets/1.png",
+    "description": "Bulk Crap Uninstaller (BCUninstaller, BCU) is a free, open source program manager. It excels at removing large amounts of applications with minimal user input.",
+    "aggregateRating": {
+      "ratingValue": 4.5,
+      "reviewCount": 59,
+      "url": "https://sourceforge.net/projects/bulk-crap-uninstaller/reviews",
+      "author": "SourceForge reviews"
+    },
+    "operatingSystem": "Windows",
+    "isAccessibleForFree": true,
+    "applicationCategory": "Utility",
+    "applicationSubCategory": "Application Management",
+    "offers": [ { "@type": "Offer", "price": 0, "priceCurrency": "EUR" } ]
+  }
+  </script>
+
+    <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "url": "https://www.bcuninstaller.com/",
+    "logo": "https://www.bcuninstaller.com/assets/logo.png"
+  }
+  </script>
 
 </head>
 
 <body>
-  <a class="skip-link" href="#content">Skip to content</a>
-  <header class="page-header" role="banner">
-    <h1 class="project-name">Bulk Crap Uninstaller</h1>
-    <h2 class="project-tagline">{{ site.github.project_tagline }}</h2>
-    <nav class="site-nav" role="navigation" aria-label="Primary">
-      <ul class="nav-list">
-        <li><a href="https://dappcdn.com/download/utilities/bulk-crap-uninstaller" class="btn download-color"
-            target="_blank" rel="noopener noreferrer">Download on dAppCDN</a></li>
-        <li><a href="https://sourceforge.net/projects/bulk-crap-uninstaller/" class="btn download-color" target="_blank"
-            rel="noopener noreferrer">Download on SourceForge</a></li>
-        <li><a href="{{ site.github.repository_url }}" class="btn" target="_blank" rel="noopener noreferrer">View on
-            GitHub</a></li>
-        <li><a href="{{ site.github.releases_url }}" class="btn" target="_blank" rel="noopener noreferrer">Changelog and
-            old versions</a></li>
-      </ul>
-    </nav>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="page-header" role="banner">
+        <h1 class="project-name">Bulk Crap Uninstaller</h1>
+        <h2 class="project-tagline">{{ site.github.project_tagline }}</h2>
+        <nav class="site-nav" role="navigation" aria-label="Primary">
+            <ul class="nav-list">
+                <li><a href="https://dappcdn.com/download/utilities/bulk-crap-uninstaller" class="btn download-color"
+                        target="_blank" rel="noopener noreferrer">Download</a></li>
+                <li><a href="{{ site.github.repository_url }}" class="btn" target="_blank"
+                        rel="noopener noreferrer">View on GitHub</a></li>
+                <li><a href="{{ site.github.releases_url }}" class="btn" target="_blank"
+                        rel="noopener noreferrer">Changelog</a></li>
+            </ul>
+        </nav>
 
-    <div class="shields">
-      <a href="http://klocmansoftware.weebly.com/donate.html" target="_blank" rel="noopener noreferrer"><img
-          src="https://img.shields.io/badge/donate-paypal%2Fbitcoin-brightgreen.svg" alt="Donate"></a>
-      <a href="https://github.com/Klocman/Bulk-Crap-Uninstaller/releases" target="_blank" rel="noopener noreferrer"><img
-          src="https://img.shields.io/github/release/klocman/Bulk-Crap-Uninstaller.svg" alt="GitHub release"></a>
-      <a href="https://github.com/Klocman/Bulk-Crap-Uninstaller/blob/master/Licence.txt" target="_blank"
-        rel="noopener noreferrer"><img src="https://img.shields.io/github/license/klocman/Bulk-Crap-Uninstaller.svg"
-          alt="license"></a>
-      <a href="https://github.com/Klocman/Bulk-Crap-Uninstaller/issues" target="_blank" rel="noopener noreferrer"><img
-          src="https://img.shields.io/github/issues/klocman/Bulk-Crap-Uninstaller.svg" alt="Issues"></a>
-    </div>
+        <div class="shields">
+            <a href="http://klocmansoftware.weebly.com/donate.html" target="_blank" rel="noopener noreferrer"><img
+                    src="https://img.shields.io/badge/donate-paypal%2Fbitcoin-brightgreen.svg" alt="Donate"></a>
+            <a href="https://github.com/Klocman/Bulk-Crap-Uninstaller/releases" target="_blank"
+                rel="noopener noreferrer"><img
+                    src="https://img.shields.io/github/release/klocman/Bulk-Crap-Uninstaller.svg"
+                    alt="GitHub release"></a>
+            <a href="https://github.com/Klocman/Bulk-Crap-Uninstaller/blob/master/Licence.txt" target="_blank"
+                rel="noopener noreferrer"><img
+                    src="https://img.shields.io/github/license/klocman/Bulk-Crap-Uninstaller.svg" alt="license"></a>
+            <a href="https://github.com/Klocman/Bulk-Crap-Uninstaller/issues" target="_blank"
+                rel="noopener noreferrer"><img
+                    src="https://img.shields.io/github/issues/klocman/Bulk-Crap-Uninstaller.svg" alt="Issues"></a>
+        </div>
 
-  </header>
+        <section class="hero" aria-labelledby="hero-title">
+            <h2 id="hero-title">Lightweight, powerful app uninstaller for Windows</h2>
+            <p class="lead">Bulk Crap Uninstaller (BCUninstaller) removes large amounts of applications with minimal
+                user input — ideal for clean installs and system maintenance.</p>
+            <div class="cta">
+                <a class="btn download-color" href="https://dappcdn.com/download/utilities/bulk-crap-uninstaller"
+                    target="_blank" rel="noopener noreferrer">Download</a>
+                <a class="btn" href="{{ site.github.repository_url }}" target="_blank" rel="noopener noreferrer">View
+                    source</a>
+            </div>
+        </section>
 
-  <main id="content" class="main-content" role="main">
-    {{ content }}
+    </header>
 
-    <footer class="site-footer">
-      {% if site.github.is_project_page %}
-      <span class="site-footer-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a>
-        is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.</span>
-      {% endif %}
-      <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub
-          Pages</a>.</span>
-    </footer>
-  </main>
+    <main id="content" class="main-content" role="main">
+        {{ content }}
 
-  <!-- Analytics removed per request -->
-  <script type="application/ld+json">
-        {
-          "@context": "http://schema.org",
-          "@type": "SoftwareApplication",
-          "name": "Bulk Crap Uninstaller",
-          "screenshot": "https://www.bcuninstaller.com/assets/1.png",
-          "description": "Bulk Crap Uninstaller (BCUninstaller, BCU) is a free, open source program manager. It excels at removing large amounts of applications with minimal user input.",
-          "aggregateRating": {
-            "ratingValue": 4.5,
-            "reviewCount": 59,
-            "url": "https://sourceforge.net/projects/bulk-crap-uninstaller/reviews",
-            "author": "SourceForge reviews"
-          },
-          "operatingSystem": "Windows",
-          "isAccessibleForFree": true,
-          "applicationCategory": "Utility",
-          "applicationSubCategory": "Application Management",
-          "offers": [
-            {
-              "@type": "Offer",
-              "price": 0,
-              "priceCurrency": "EUR"
-            }
-          ]
-        }
-        </script>
-  <script type="application/ld+json">
-        {
-          "@context": "http://schema.org",
-          "@type": "Organization",
-          "url": "https://www.bcuninstaller.com/",
-          "logo": "https://www.bcuninstaller.com/assets/logo.png"
-        }
-        </script>
+        <footer class="site-footer">
+            {% if site.github.is_project_page %}
+            <span class="site-footer-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name
+                    }}</a> is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name
+                    }}</a>.</span>
+            {% endif %}
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub
+                    Pages</a>.</span>
+        </footer>
+    </main>
+
+    <!-- Analytics removed per request -->
+
 </body>
 
 </html>
